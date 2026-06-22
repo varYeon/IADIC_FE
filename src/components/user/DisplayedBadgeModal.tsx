@@ -70,7 +70,6 @@ export default function DisplayedBadgeModal({
     setDisplayedBadgeList(prev => {
       const newList = [...prev];
       newList[i] = null;
-      console.log("delete 실행");
       return newList;
     });
   };
@@ -84,7 +83,7 @@ export default function DisplayedBadgeModal({
       <div className="fixed inset-0 z-11 flex h-full w-full justify-center bg-gray-500/50 py-20" onMouseDown={setModal}>
         <div
           onMouseDown={preventOffModal}
-          className="bg-bg-main z-12 h-fit max-h-[80vh] w-[80%] overflow-y-auto rounded-3xl p-12 max-sm:p-9"
+          className="bg-bg-main z-12 h-fit max-h-[80vh] w-[80%] overflow-y-auto rounded-3xl p-12 max-sm:w-[90%] max-sm:p-9"
         >
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-1">

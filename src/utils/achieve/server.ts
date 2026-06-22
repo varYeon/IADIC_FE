@@ -21,7 +21,7 @@ export async function updateExpLevel(user_id: string, addExp: number) {
 
   if (profileError) throw profileError;
 
-  const newExp = profile.exp ?? 0 + addExp;
+  const newExp = (profile.exp ?? 0) + addExp;
   const newLevel = calculateLevel(newExp);
 
   await supabase.from("profiles").update({ exp: newExp, level: newLevel }).eq("id", user_id);

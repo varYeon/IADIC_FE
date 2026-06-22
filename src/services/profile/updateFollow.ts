@@ -16,7 +16,7 @@ export async function deleteFollow(followerId: string, followingId: string) {
       error: "팔로우 취소 중에 문제가 발생하였습니다.",
     };
   }
-  return { success: true, error: null };
+  return { success: true, error: null, result: null };
 }
 
 export async function insertFollow(followerId: string, followingId: string) {
@@ -31,5 +31,5 @@ export async function insertFollow(followerId: string, followingId: string) {
       error: "팔로우 중에 문제가 발생하였습니다.",
     };
   }
-  return { success: true, error: null };
+  return { success: true, error: null, result: null };
 }

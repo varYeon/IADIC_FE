@@ -12,11 +12,18 @@ export default function CommentForm({
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
     error: null,
+    result: null,
   });
 
   useEffect(() => {
     if (state.error) {
       Toast({ message: state.error, type: "ERROR" });
+    }
+    if (state.result) {
+      state.result.forEach(res => {
+        Toast({ message: `${res.badgeName} 뱃지를 획득하셨습니다!`, type: "SUCCESS" });
+        if (res.leveledUp) Toast({ message: `${res.newLevel} 레벨업!`, type: "SUCCESS" });
+      });
     }
   }, [state]);
 

@@ -6,7 +6,7 @@ export default function SearchIntro() {
         <p className="text-main"> 훈수</p>
         <p>가 있나요?</p>
       </div>
-      <p className="text-text-light flex justify-center sm:text-sm md:text-base">
+      <p className="text-text-light flex flex-wrap justify-center px-5 sm:text-sm md:text-base">
         찾고자 하는 키워드를 검색하면 관련 훈수 모음들을 찾아드릴게요
       </p>
     </div>

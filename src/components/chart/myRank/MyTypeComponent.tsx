@@ -12,7 +12,7 @@ export default function MyTypeComponent({ stats }: { stats: MyTypeDataType[] }) 
     <ResponsiveContainer className="min-h-0 w-full px-5 py-6">
       <ChartCardTtile title="유형" subTitle="총 합산 ( 게시글, 훈수, 뱃지 포인트 )" />
       <div className="max-h-100px gap mx-auto flex w-[95%] flex-col items-center justify-center gap-15 gap-y-10 md:flex-row">
-        <div className="flex h-full w-[40%] flex-col gap-10 pt-5">
+        <div className="flex h-full w-[40%] flex-col items-center justify-center gap-10 pt-5">
           <ChartPie stats={chartData} total_point={total_point} innerRadius={78} height={200} labelEndText="점" />
           <PieChartKey stats={chartData} />
         </div>

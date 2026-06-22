@@ -16,7 +16,7 @@ export default async function Page({ searchParams }: { searchParams: Promise<{ s
     .from("bookmark")
     .select("posts(*, category(type,name), profiles(name))")
     .eq("user_id", user?.id ?? "")
-    .order("created_at", { ascending: false, foreignTable: "posts" });
+    .order("created_at", { ascending: false });
 
   if (category && sort !== "all") {
     data = data.eq("posts.category_id", category.id);

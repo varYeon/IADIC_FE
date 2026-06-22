@@ -26,17 +26,17 @@ export default function PostSideButton({
     <>
       {isLogin && (
         <>
-          <Link href="/posts/write?page=new" className="max-sm:w-full">
-            <Button size="md" className="w-60 max-sm:w-full">
+          <Link href="/posts/write?page=new" className="w-[98%]">
+            <Button size="md" className="w-full">
               <Plus size={24} />
               <span>글쓰기</span>
             </Button>
           </Link>
-          <Divider width="90" className="bg-border-main" />
-          <div className="post-filter-btn flex gap-3 max-sm:w-full">
+          <Divider width="95" className="bg-border-main" />
+          <div className="post-filter-btn flex w-full items-center justify-center gap-1">
             <Button
               size="sm"
-              className={`max-sm:w-full`}
+              className={`w-22`}
               variant={filter === "all" ? "primary" : "tertiary"}
               onClick={() => handleFilterChange("all")}
             >
@@ -46,7 +46,7 @@ export default function PostSideButton({
 
             <Button
               size="sm"
-              className={`px-3 max-sm:w-full`}
+              className={`w-42`}
               variant={filter === "following" ? "primary" : "tertiary"}
               onClick={() => handleFilterChange("following")}
             >

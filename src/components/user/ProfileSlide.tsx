@@ -113,9 +113,16 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
             <button onClick={onClick ?? close} className="cursor-pointer">
               <ChevronLeft />
             </button>
-            <div className="flex flex-col gap-2">
-              <Badge size="sm" text={"LV." + String(profileData?.level)} className="bg-main text-white" />
-              <p className="font-medium">{profileData?.name}</p>
+            <div className="flex min-w-[80%] items-end gap-4">
+              <div className="flex flex-col gap-2">
+                <Badge size="sm" text={"LV." + String(profileData?.level ?? "")} className="bg-main text-white" />
+                <p className="min-w-11 font-medium">{profileData?.name}</p>
+              </div>
+              {profileData?.bio && (
+                <p className="bg-main/40 w-fit rounded-2xl rounded-bl-none px-3 py-2 text-sm break-all text-white">
+                  {profileData?.bio.length > 25 ? profileData?.bio?.slice(0, 25) + "..." : profileData?.bio}
+                </p>
+              )}
             </div>
           </div>
           <Toggle
@@ -125,7 +132,7 @@ export default function ProfileSlide({ onClick }: { onClick?: () => void }) {
             disabled={!userId || userId === isOpen}
             onClick={handleFollow}
           >
-            팔로우
+            {(followList ?? []).includes(isOpen) ? "팔로잉" : "팔로우"}
           </Toggle>
           <div className="flex flex-col items-center gap-3">
             <div className="flex gap-6">

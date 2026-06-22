@@ -22,6 +22,7 @@ export default function PostForm({
   const [state, formAction, isPending] = useActionState(action, {
     success: false,
     error: null,
+    result: null,
   });
 
   const router = useRouter();
@@ -31,6 +32,18 @@ export default function PostForm({
     const file = e.target.files?.[0];
 
     if (!file) return;
+
+    if (file.size > 1024 * 1024) {
+      Toast({ message: "1MB 이하의 이미지만 업로드 할 수 있습니다.", type: "ERROR" });
+      e.target.value = "";
+      return;
+    }
+
+    if (!file.type.startsWith("image/")) {
+      Toast({ message: "이미지 파일만 업로드할 수 있습니다.", type: "ERROR" });
+      e.target.value = "";
+      return;
+    }
 
     const url = URL.createObjectURL(file);
 
@@ -48,6 +61,10 @@ export default function PostForm({
         redirect(`/posts/${categoryType}/post/${postData.id}`);
       } else {
         Toast({ message: "게시글이 성공적으로 등록되었습니다.", type: "SUCCESS" });
+        state.result?.forEach(res => {
+          Toast({ message: `${res.badgeName} 뱃지를 획득하셨습니다!`, type: "SUCCESS" });
+          if (res.leveledUp) Toast({ message: `${res.newLevel} 레벨업!`, type: "SUCCESS" });
+        });
         redirect("/posts");
       }
     }

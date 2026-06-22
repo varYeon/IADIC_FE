@@ -27,7 +27,7 @@ export default function DisplayedBadge({ action, displayedBadge, haveBadge }: Di
             <p>대표 뱃지</p>
           </div>
           <div className="flex justify-center">
-            <div className="flex flex-wrap justify-center gap-52 max-xl:gap-25 max-lg:gap-16 max-sm:max-w-full max-sm:gap-6">
+            <div className="flex flex-wrap justify-center gap-52 max-xl:gap-25 max-lg:max-w-80 max-lg:gap-16 max-sm:max-w-50 max-sm:gap-6">
               {!displayedBadge || displayedBadge.length === 0
                 ? [...Array(4)].map((_, i) => <BadgeDetail key={i} badgeData={null} />)
                 : displayedBadge.map((b, i) => <BadgeDetail key={i} badgeData={b ?? null} />)}

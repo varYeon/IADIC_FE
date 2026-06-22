@@ -16,12 +16,14 @@ export default function PostDetail({
   postData,
   postId,
   writeComment,
+  userBadgeData,
 }: {
   user: User | null;
   commentData: CommentDetailType[];
   postData: PostDetailType | null;
   postId: string;
   writeComment: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  userBadgeData: userBadgeType;
 }) {
   const router = useRouter();
   const path = usePathname();
@@ -42,6 +44,7 @@ export default function PostDetail({
           commentCount={commentData?.length ?? 0}
           postData={postData}
           handleSelectUser={handleSelectUser}
+          userBadgeData={userBadgeData}
           className="bg-bg-main rounded-t-none border-t-0 border-r-0 border-l-0"
         />
         <div className="flex h-full flex-col justify-between px-6 py-5">
@@ -50,6 +53,7 @@ export default function PostDetail({
             isMyPost={isMyPost}
             userId={user?.id ?? ""}
             postId={postId}
+            categoryId={postData?.category_id ?? ""}
             commentData={commentData ?? []}
             adoptedCommentId={postData?.adopted_comment_id ?? ""}
           />

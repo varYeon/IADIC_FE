@@ -5,6 +5,7 @@ import Toast from "@/components/common/toast/Toast";
 import PostForm from "@/components/post/PostForm";
 import { createPost, updatePost } from "@/services/post/post.server";
 import { FormState } from "@/types";
+import { achievePost } from "@/utils/achieve/server";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function NewPostPage({ searchParams }: { searchParams: Promise<{ page: string; id: string }> }) {
@@ -36,6 +37,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         return {
           success: false,
           error: "로그인이 필요합니다.",
+          result: null,
         };
       }
 
@@ -48,6 +50,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         return {
           success: false,
           error: "입력 값을 모두 채워주세요.",
+          result: null,
         };
       }
 
@@ -71,6 +74,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
           return {
             success: false,
             error: "이미지 업로드 실패",
+            result: null,
           };
         } else {
           const { data: image } = supabase.storage.from("user_upload_image").getPublicUrl(fileName);
@@ -80,47 +84,23 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
           if (!updateState?.success) return state;
 
           // 뱃지, 경험치
-          if (updateData) {
-            const { data: newBadge, error: newBadgeError } = await supabase.rpc("grant_badges_and_update_exp", {
-              p_user_id: user.id,
-              p_category_id: categoryId,
-            });
-
-            if (newBadgeError) throw newBadgeError;
-
-            if (newBadge[0]) {
-              const badgeInfo = newBadge[0];
-              console.log(`${badgeInfo.badge_name}, 뱃지를 얻으셨습니다!`);
-              if (badgeInfo.leveled_up) console.log(`${badgeInfo.new_level}, 레벨업!`);
-            }
-          }
+          const result = await achievePost(user.id, categoryId);
 
           return {
             success: true,
             error: null,
+            result: result,
           };
         }
       }
 
       // 뱃지, 경험치
-      if (data) {
-        const { data: newBadge, error: newBadgeError } = await supabase.rpc("grant_badges_and_update_exp", {
-          p_user_id: user.id,
-          p_category_id: categoryId,
-        });
-
-        if (newBadgeError) throw newBadgeError;
-
-        if (newBadge[0]) {
-          const badgeInfo = newBadge[0];
-          console.log(`${badgeInfo.badge_name}, 뱃지를 얻으셨습니다!`);
-          if (badgeInfo.leveled_up) console.log(`${badgeInfo.new_level}, 레벨업!`);
-        }
-      }
+      const result = await achievePost(user.id, categoryId);
 
       return {
         success: true,
         error: null,
+        result: result,
       };
     }
 
@@ -139,6 +119,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         return {
           success: false,
           error: "로그인이 필요합니다.",
+          result: null,
         };
       }
 
@@ -151,6 +132,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         return {
           success: false,
           error: "입력 값을 모두 채워주세요.",
+          result: null,
         };
       }
 
@@ -177,6 +159,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
           return {
             success: false,
             error: "기존 이미지 삭제 실패",
+            result: null,
           };
 
         // 수정 이미지 추가
@@ -189,6 +172,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
           return {
             success: false,
             error: "이미지 업로드 실패",
+            result: null,
           };
         } else {
           const { data: image } = supabase.storage.from("user_upload_image").getPublicUrl(fileName);
@@ -200,6 +184,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
           return {
             success: true,
             error: null,
+            result: null,
           };
         }
       }
@@ -207,6 +192,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
       return {
         success: true,
         error: null,
+        result: null,
       };
     }
 

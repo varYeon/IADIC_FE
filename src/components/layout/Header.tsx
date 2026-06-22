@@ -13,7 +13,7 @@ export default function Header() {
         <CircleProfileImage src={logoImg} className="bg-bg-sub border-2 border-[#12659E]" size="sm" />
         <div className="text-center">
           <div className="text-[15px] font-bold text-[#12659E]">HOONSU</div>
-          <div className="text-[10px] font-bold text-[#12659E]">훈수만을 위한</div>
+          <div className="text-[10px] font-bold text-[#12659E]">TALK</div>
         </div>
       </div>
       <div>

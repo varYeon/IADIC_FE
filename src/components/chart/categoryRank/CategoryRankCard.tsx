@@ -22,7 +22,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
       <div className="mb-7.5 text-lg font-semibold" style={{ color }}>
         {stats.category_name}
       </div>
-      <div className="ml-1 flex w-full flex-wrap gap-5">
+      <div className="flex w-full flex-wrap gap-5">
         <div className="flex w-full max-w-40 flex-col gap-2 md:max-w-[200px]">
           <div className="flex gap-8">
             <div className="flex flex-col gap-1">
@@ -57,9 +57,9 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
 
       <div className="border-border-sub my-6 mt-7 border-t" />
 
-      <div className="ml-1 flex w-full flex-col gap-2">
+      <div className="flex w-full flex-col gap-2">
         <div className="text-text-title text-[15px] font-semibold">랭킹 TOP3</div>
-        <div className="grid max-w-[320px] cursor-pointer grid-cols-3 gap-5">
+        <div className="grid max-w-[320px] cursor-pointer grid-cols-3 items-center justify-center gap-5">
           {!stats.topusers[0] && (
             <div className="min-h-[98px]">
               <Badge size="md" className="bg-text-sub px-2 py-1 text-white" text="지표가 부족합니다" />
@@ -93,7 +93,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
 
       <div className="border-border-sub my-6 mt-7 border-t" />
 
-      <div className="ml-1 flex w-full flex-wrap gap-5 md:gap-8">
+      <div className="flex w-full flex-wrap gap-5 md:gap-8">
         <div className="flex w-full max-w-[250px] flex-col gap-3">
           <div className="text-text-title text-[15px] font-semibold">지표</div>
           <div className="flex gap-3">

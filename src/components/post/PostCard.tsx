@@ -10,10 +10,14 @@ import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { getBookmarkCount } from "@/services/post/bookmark";
 import { deletePost } from "@/services/post/post.client";
+import { deleteFollow, insertFollow } from "@/services/profile/updateFollow";
 import { PostDetailType } from "@/types";
+import { categoryColor } from "@/utils/category";
+import { createClient } from "@/utils/supabase/client";
 import PostCardBookMark from "./PostCardBookMark";
 import Badge from "../common/Badge";
 import BaseImage from "../common/image/BaseImage";
+import Toast from "../common/toast/Toast";
 
 const thumbnailVariants = cva(
   "post-card_post-thumbnail relative overflow-hidden object-cover rounded-xl border border-border-main",
@@ -35,6 +39,7 @@ interface PostCardProps extends VariantProps<typeof thumbnailVariants> {
   postData: PostDetailType | null;
   commentCount: number;
   handleSelectUser: () => void;
+  userBadgeData: userBadgeType;
   className?: string;
 }
 
@@ -44,24 +49,56 @@ export default function PostCard({
   postData,
   commentCount,
   handleSelectUser,
+  userBadgeData,
   className,
 }: PostCardProps) {
   const router = useRouter();
   const currentPath = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [bookmarkCount, setBookmarkCount] = useState(0);
+  const [followList, setFollowList] = useState<string[]>();
+  const isMyPost = userId === postData?.user_id;
 
   const handleBookmarkCount = (count: number) => {
     setBookmarkCount(prev => prev + count);
   };
 
   useEffect(() => {
+    const supabase = createClient();
+    const fetchData = async () => {
+      if (userId) {
+        const { data: followList } = await supabase.from("follow").select("following_id").eq("follower_id", userId);
+        const followListData = followList?.map(f => f.following_id) ?? [];
+        setFollowList(followListData);
+      }
+    };
     const loadBookmarkCount = async () => {
       const count = await getBookmarkCount(postData?.id ?? "");
       setBookmarkCount(count ?? 0);
     };
+    fetchData();
     loadBookmarkCount();
-  }, []);
+  }, [postData?.id, userId]);
+
+  const handleFollow = async () => {
+    if (userId && postData?.user_id && (followList ?? []).includes(postData?.user_id)) {
+      const { success, error } = await deleteFollow(userId, postData?.user_id);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowList(prev => prev?.filter(id => id !== postData?.user_id));
+        Toast({ message: postData?.profiles.name + "님을 언팔로우 했습니다.", type: "SUCCESS" });
+      }
+    } else if (userId && postData?.user_id) {
+      const { success, error } = await insertFollow(userId, postData?.user_id);
+      if (error) {
+        Toast({ message: error, type: "ERROR" });
+      } else if (success && !error) {
+        setFollowList(prev => [...(prev ?? []), postData?.user_id]);
+        Toast({ message: postData?.profiles.name + "님을 팔로우 했습니다.", type: "SUCCESS" });
+      }
+    }
+  };
 
   if (postData) {
     const { content, post_image, profiles, title } = postData;
@@ -102,15 +139,42 @@ export default function PostCard({
               </button>
 
               <span className="mr-2 ml-5 text-xs">{profiles.name}</span>
-              <Badge size="sm" text="칭호칭호" className="bg-gray-200 text-black" />
+              {userBadgeData?.badge?.name && (
+                <Badge
+                  size="sm"
+                  text={userBadgeData?.badge?.name}
+                  style={
+                    userBadgeData?.badge?.type === "category"
+                      ? {
+                          backgroundColor: categoryColor[userBadgeData.badge.category?.name ?? ""],
+                        }
+                      : { backgroundColor: "#999999" }
+                  }
+                  className="text-white"
+                />
+              )}
             </div>
-            <div className="flex gap-2">
-              {" "}
-              <button className="hover:bg-main/10 flex h-max cursor-pointer items-center justify-center rounded-lg p-2">
-                <span className="text-main text-xs">팔로우</span>
-              </button>
-              <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
-            </div>
+            {!isMyPost && userId && (
+              <div className="flex gap-2">
+                <button
+                  className={
+                    (followList ?? []).includes(postData?.user_id)
+                      ? "hover:bg-main/10 hidden h-max cursor-pointer items-center justify-center rounded-lg p-2"
+                      : "bg-main hover:bg-main/80 hidden h-max cursor-pointer items-center justify-center rounded-lg p-2 text-white"
+                  }
+                  onClick={() => handleFollow()}
+                >
+                  <span
+                    className={
+                      (followList ?? []).includes(postData?.user_id) ? "text-main text-xs" : "text-xs text-white"
+                    }
+                  >
+                    {(followList ?? []).includes(postData?.user_id) ? "팔로잉" : "팔로우"}
+                  </span>
+                </button>
+                <PostCardBookMark postId={postData.id} userId={userId} handleBookmarkCount={handleBookmarkCount} />
+              </div>
+            )}
           </div>
           <div className="post-card_detail flex flex-col gap-3">
             <p className="post-card_post-title text-text-title text-base font-bold">{title}</p>
@@ -135,7 +199,7 @@ export default function PostCard({
                   <span className="ml-2 text-xs">{bookmarkCount}</span>
                 </div>
               </div>
-              {userId === postData.user_id && (
+              {isMyPost && (
                 <div className="text-text-light flex gap-1 text-xs">
                   <Link href={`/posts/write?page=edit&id=${postData.id}`} className="hover:text-main cursor-pointer">
                     수정

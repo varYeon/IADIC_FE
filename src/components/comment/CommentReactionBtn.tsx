@@ -10,6 +10,7 @@ import {
   hasAdoptedComment,
   selectReaction,
 } from "@/services/comment/comment.client";
+import { badgeAdopt, badgeLikesGiven, badgeLikesReceived } from "@/utils/achieve/client";
 import Toast from "../common/toast/Toast";
 
 const buttonVariants = cva(
@@ -52,24 +53,26 @@ interface CommentReactionBtnProps
   extends React.ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   isLogin: boolean;
-  isMine: boolean;
+  userId: string;
   isMyPost?: boolean;
   isAdopted?: boolean;
   currentUserId: string;
   commentId: string;
   postId?: string;
+  categoryId: string;
   reactions?: { count: number };
   className?: string;
 }
 
 export default function CommentReactionBtn({
   isLogin,
-  isMine,
+  userId,
   isMyPost,
   isAdopted,
   currentUserId,
   postId,
   commentId,
+  categoryId,
   children,
   buttonType,
   reactions,
@@ -79,6 +82,8 @@ export default function CommentReactionBtn({
   const [count, setCount] = useState(reactions?.count ?? 0);
   const [isActive, setIsActive] = useState(!!reactions);
   const [adoptedState, setAdoptedState] = useState(isAdopted);
+
+  const isMine = currentUserId === userId;
 
   useEffect(() => {
     setIsActive(count > 0);
@@ -112,6 +117,7 @@ export default function CommentReactionBtn({
         setAdoptedState(false);
         return;
       }
+      await badgeAdopt(userId, categoryId);
     } else {
       if (data?.adopted_comment_id !== commentId) {
         Toast({ message: "이미 채택한 훈수가 있습니다.", type: "ERROR" });
@@ -158,6 +164,16 @@ export default function CommentReactionBtn({
         console.error(`댓글 ${type} 추가 에러: ` + error.message);
         setCount(prev => prev - 1);
         return;
+      }
+
+      if (type === "like") {
+        const result = await badgeLikesGiven(currentUserId);
+        await badgeLikesReceived(userId);
+
+        result?.forEach(res => {
+          Toast({ message: `${res.badgeName} 뱃지를 획득하셨습니다!`, type: "SUCCESS" });
+          if (res.leveledUp) Toast({ message: `${res.newLevel} 레벨업!`, type: "SUCCESS" });
+        });
       }
     } else {
       // 반응 있을 경우

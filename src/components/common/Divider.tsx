@@ -15,6 +15,7 @@ const divider = cva("h-px mx-auto", {
       "50": "w-[50%]",
       "75": "w-[75%]",
       "90": "w-[90%]",
+      "95": "w-[95%]",
       "100": "w-full",
     },
   },
@@ -26,7 +27,7 @@ const divider = cva("h-px mx-auto", {
 
 interface DividerProps extends VariantProps<typeof divider> {
   className?: string;
-  width?: "25" | "50" | "75" | "90" | "100";
+  width?: "25" | "50" | "75" | "90" | "95" | "100";
 }
 
 export function Divider({ thickness, width = "100", className }: DividerProps) {

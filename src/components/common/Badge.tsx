@@ -2,7 +2,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import { CSSProperties } from "react";
 import { twMerge } from "tailwind-merge";
 
-const BadgeVariants = cva("w-max h-max rounded-sm", {
+const BadgeVariants = cva("w-max h-max rounded-sm break-keep", {
   variants: {
     size: {
       xs: "text-xs px-1.5 py-[3.5px]",

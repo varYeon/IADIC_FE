@@ -50,8 +50,8 @@ export default function BadgeDetail({ badgeData, className, type = "display" }: 
         ) : (
           <div className="border-bg-sub h-[70px] w-[70px] rounded-full border"></div>
         )}
-        <p className="text-center font-medium break-keep">{badgeData?.name ?? "-"}</p>
-        <p className="text-text-light text-center text-[8px] break-keep">{badgeData?.desc ?? "선택 가능"}</p>
+        <p className="text-center text-sm font-medium break-keep">{badgeData?.name ?? "-"}</p>
+        <p className="text-text-light text-center text-xs break-keep">{badgeData?.desc ?? "선택 가능"}</p>
       </div>
     </>
   );

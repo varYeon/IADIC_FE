@@ -15,6 +15,7 @@ export function CommentModifyForm({
   const [state, formAction, isPending] = useActionState(updateContent, {
     success: false,
     error: null,
+    result: null,
   });
 
   useEffect(() => {

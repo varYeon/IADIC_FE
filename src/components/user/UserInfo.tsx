@@ -2,18 +2,20 @@
 
 import { UserRoundPen } from "lucide-react";
 import { useState } from "react";
-import { FormState, ProfileType } from "@/types";
+import { BadgeType, FormState } from "@/types";
+import { categoryColor } from "@/utils/category";
 import UserInfoModalForm from "./UserInfoModalForm";
 import Badge from "../common/Badge";
 import { Button } from "../common/Button";
 import CircleProfileImage from "../common/image/CircleProfileImage";
 
 type UserInfoProps = {
-  profile: ProfileType | null;
+  profile: UserProfile;
   action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  haveBadge: BadgeType[] | null;
 };
 
-export default function UserInfo({ profile, action }: UserInfoProps) {
+export default function UserInfo({ profile, action, haveBadge }: UserInfoProps) {
   const [modalStatus, setModalStatus] = useState(false);
   const onHandleModalStatus = () => {
     setModalStatus(prev => !prev);
@@ -26,7 +28,23 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
           <CircleProfileImage src={profile?.avatar_image ?? "/profile_sample.svg"} size="lg" />
           <div className="flex flex-col gap-2">
             <Badge size="sm" text={`LV.${profile?.level}`} className="bg-main text-white" />
-            <p className="font-medium">{profile?.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="font-medium">{profile?.name}</p>
+              {profile?.badge?.name && (
+                <Badge
+                  size="sm"
+                  text={profile?.badge?.name ?? "칭호 없음"}
+                  className="text-white"
+                  style={
+                    profile.badge?.type === "category"
+                      ? {
+                          backgroundColor: categoryColor[profile.badge.category.name],
+                        }
+                      : { backgroundColor: "#999999" }
+                  }
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className="flex flex-col gap-6 text-xs">
@@ -41,7 +59,7 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
               <p>{profile?.phone_number ?? "-"}</p>
             </div>
             <div>
-              <p className="text-text-sub mb-3">한줄 소개</p>
+              <p className="text-text-sub mb-3 break-keep">한줄 소개</p>
               <p>{profile?.bio ?? "-"}</p>
             </div>
           </div>
@@ -53,7 +71,9 @@ export default function UserInfo({ profile, action }: UserInfoProps) {
           </div>
         </div>
       </div>
-      {modalStatus && <UserInfoModalForm profile={profile} setModal={onHandleModalStatus} action={action} />}
+      {modalStatus && (
+        <UserInfoModalForm profile={profile} setModal={onHandleModalStatus} action={action} haveBadge={haveBadge} />
+      )}
     </>
   );
 }

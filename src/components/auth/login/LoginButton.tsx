@@ -1,6 +1,6 @@
 "use client";
 
-import { ShieldAlert } from "lucide-react";
+import { LogIn, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/common/Button";
 import { createClient } from "@/utils/supabase/client";
@@ -27,7 +27,7 @@ export default function LoginButton() {
   if (isLoggedIn === null) {
     return (
       <Button variant="tertiary" className="w-full" size="md" disabled>
-        <ShieldAlert size={16} />
+        <LogIn size={16} />
         확인 중
       </Button>
     );
@@ -35,7 +35,7 @@ export default function LoginButton() {
   if (!isLoggedIn) {
     return (
       <Button variant="tertiary" className="w-full" size="md" onClick={() => (window.location.href = "/login")}>
-        <ShieldAlert size={16} />
+        <LogIn size={16} />
         로그인
       </Button>
     );
@@ -50,7 +50,7 @@ export default function LoginButton() {
         window.location.reload();
       }}
     >
-      <ShieldAlert size={16} />
+      <LogOut size={16} />
       로그아웃
     </Button>
   );

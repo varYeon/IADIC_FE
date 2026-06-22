@@ -17,30 +17,34 @@ export default function PostCardBookMark({
   const [isBookmarkedState, setIsBookmarkedState] = useState(false);
 
   useEffect(() => {
-    const getBookmarkState = async (postId: string) => {
-      const isBookmarkedState = await isBookmarked(postId, userId);
-      setIsBookmarkedState(isBookmarkedState ?? false);
-    };
+    if (userId) {
+      const getBookmarkState = async (postId: string) => {
+        const isBookmarkedState = await isBookmarked(postId, userId);
+        setIsBookmarkedState(isBookmarkedState ?? false);
+      };
 
-    getBookmarkState(postId);
+      getBookmarkState(postId);
+    }
   }, []);
 
   const handleBookmark = async (isBookmarked: boolean) => {
-    if (isBookmarked) {
-      const { success } = await deleteBookmark(postId, userId);
-      handleBookmarkCount(-1);
-      setIsBookmarkedState(false);
-      if (!success) {
-        handleBookmarkCount(+1);
-        setIsBookmarkedState(true);
-      }
-    } else {
-      const { success } = await addBookmark(postId, userId);
-      handleBookmarkCount(1);
-      setIsBookmarkedState(true);
-      if (!success) {
+    if (userId) {
+      if (isBookmarked) {
+        const { success } = await deleteBookmark(postId, userId);
         handleBookmarkCount(-1);
         setIsBookmarkedState(false);
+        if (!success) {
+          handleBookmarkCount(+1);
+          setIsBookmarkedState(true);
+        }
+      } else {
+        const { success } = await addBookmark(postId, userId);
+        handleBookmarkCount(1);
+        setIsBookmarkedState(true);
+        if (!success) {
+          handleBookmarkCount(-1);
+          setIsBookmarkedState(false);
+        }
       }
     }
   };

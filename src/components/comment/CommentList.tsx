@@ -11,6 +11,7 @@ export default function CommentList({
   isMyPost,
   userId,
   postId,
+  categoryId,
   commentData,
   adoptedCommentId,
 }: {
@@ -18,6 +19,7 @@ export default function CommentList({
   isMyPost: boolean;
   userId: string;
   postId: string;
+  categoryId: string;
   commentData: CommentDetailType[];
   adoptedCommentId: string;
 }) {
@@ -90,6 +92,7 @@ export default function CommentList({
             postId={postId}
             currentUserId={userId ?? ""}
             adoptedId={adoptedCommentId ?? ""}
+            categoryId={categoryId}
           />
         ))
       ) : (

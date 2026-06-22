@@ -47,4 +47,5 @@ export type ProfileType = Database["public"]["Tables"]["profiles"]["Row"];
 export type FormState = {
   success: boolean;
   error: string | null;
+  result: BadgeAchieveType[] | null;
 };

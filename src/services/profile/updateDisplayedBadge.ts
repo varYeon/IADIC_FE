@@ -19,7 +19,7 @@ export async function updateDisplayedBadge(userId: string, displayedBadgeList: (
     });
 
     if (updateErrors) {
-      return { success: false, error: "대표 배지 업데이트 실패" };
+      return { success: false, error: "대표 배지 업데이트 실패", result: null };
     }
   } else {
     const { error: updateErrors } = await supabase
@@ -32,9 +32,9 @@ export async function updateDisplayedBadge(userId: string, displayedBadgeList: (
       })
       .eq("user_id", userId);
     if (updateErrors) {
-      return { success: false, error: "대표 배지 업데이트 실패" };
+      return { success: false, error: "대표 배지 업데이트 실패", result: null };
     }
   }
 
-  return { success: true, error: null };
+  return { success: true, error: null, result: null };
 }

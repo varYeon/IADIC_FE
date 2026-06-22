@@ -1,6 +1,5 @@
 "use server";
 
-import Toast from "@/components/common/toast/Toast";
 import { CommentInserType, FormState } from "@/types";
 import { createClient } from "@/utils/supabase/server";
 
@@ -25,12 +24,13 @@ export async function createComment(commentData: CommentInserType): Promise<[For
       {
         success: false,
         error: `댓글 업로드 실패: ${error.message}`,
+        result: null,
       },
       null,
     ];
   }
 
-  return [{ success: true, error: null }, data];
+  return [{ success: true, error: null, result: null }, data];
 }
 
 export async function updateComment(commentId: string, content: string) {
@@ -39,10 +39,10 @@ export async function updateComment(commentId: string, content: string) {
 
   if (error) {
     console.error(`댓글 수정 실패: ${error.message}`);
-    return { success: false, error: error.message };
+    return { success: false, error: error.message, result: null };
   }
 
-  return { success: true, error: null };
+  return { success: true, error: null, result: null };
 }
 
 export async function updateContent(prevState: FormState, formData: FormData): Promise<FormState> {
@@ -53,6 +53,7 @@ export async function updateContent(prevState: FormState, formData: FormData): P
     return {
       success: false,
       error: "내용을 입력해주세요.",
+      result: null,
     };
   }
 
@@ -63,5 +64,6 @@ export async function updateContent(prevState: FormState, formData: FormData): P
   return {
     success: true,
     error: null,
+    result: null,
   };
 }

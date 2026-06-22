@@ -14,7 +14,7 @@ const navButtonVariants = cva(
     variants: {
       variant: {
         main: "text-text-title sm:pl-4 justify-center sm:justify-start",
-        sub: "text-text-sub pl-11",
+        sub: "text-text-sub pl-9",
       },
       active: {
         true: "text-blue-500",

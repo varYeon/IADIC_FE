@@ -1,5 +1,6 @@
 import { Book } from "lucide-react";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 import { twMerge } from "tailwind-merge";
 import { Divider } from "@/components/common/Divider";
 import ResponsiveContainer from "@/components/common/ResponsiveContainer";
@@ -28,7 +29,7 @@ export default async function page() {
   const basicBadgeList = basicBadgeListData ?? null;
 
   //카테고리 뱃지 리스트를 불러오는 함수
-  const getCategoryBadgeList = async (): Promise<Record<string, BadgeType[] | null>> => {
+  const getCategoryBadgeList = cache(async (): Promise<Record<string, BadgeType[] | null>> => {
     const badge: Record<string, BadgeType[] | null> = {};
 
     await Promise.all(
@@ -42,7 +43,7 @@ export default async function page() {
       })
     );
     return badge;
-  };
+  });
 
   //카테고리 뱃지 리스트, 내가 가진 뱃지, 프로필 데이터 패칭
   const [categoryBadgeListData, { data: haveBadgeData }, { data: displayedBadgeListData }] = await Promise.all([
@@ -82,7 +83,7 @@ export default async function page() {
 
     if (!user || userError) {
       console.error(userError);
-      return { success: false, error: "유저 정보를 가져오지 못했습니다." };
+      return { success: false, error: "유저 정보를 가져오지 못했습니다.", result: null };
     }
     return updateDisplayedBadge(user.id, displayedBadgeList);
   }
