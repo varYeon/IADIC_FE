@@ -9,7 +9,7 @@ export async function deletePost(id: string, imageUrl: string) {
 
   // 기존 이미지 삭제
   const filePath = imageUrl.replace(
-    "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/",
+    "https://eaftdwfkhrhvfqpahumo.supabase.co/storage/v1/object/public/user_upload_image/",
     ""
   );
 

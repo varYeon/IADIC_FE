@@ -4,11 +4,11 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
-    qualities: [75, 100],
+    // qualities: [75, 100],ㄴ
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "lfkxloulmqeonuzaudtt.supabase.co",
+        hostname: "eaftdwfkhrhvfqpahumo.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/**",
       },

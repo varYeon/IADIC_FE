@@ -79,7 +79,7 @@ export default function CategoryRankCard({ stats }: { stats: categoryStatsType }
                 <CircleProfileImage
                   src={
                     user.avatar_image ||
-                    "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/default_user_image.svg"
+                    "https://eaftdwfkhrhvfqpahumo.supabase.co/storage/v1/object/public/user_upload_image/default_user_image.svg"
                   }
                   size="md"
                   className="border-none"

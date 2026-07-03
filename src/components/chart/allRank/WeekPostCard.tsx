@@ -9,7 +9,7 @@ export default function WeekPostCard({ post }: { post: WeekPostDataType }) {
   const router = useRouter();
   const image = post.post_image
     ? post.post_image
-    : "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/default_image.png";
+    : "https://eaftdwfkhrhvfqpahumo.supabase.co/storage/v1/object/public/user_upload_image/default_image.png";
 
   return (
     <div
