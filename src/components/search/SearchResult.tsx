@@ -16,7 +16,11 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
     searchData = posts || [];
     if (error) {
       console.error("Search error:", error.message);
-      return <div>훈수를 찾는 중에 오류가 발생했습니다.</div>;
+      return (
+        <div className="flex min-h-[calc(100vh-64px)] w-full flex-col items-center justify-center gap-4 py-8">
+          훈수를 찾는 중에 오류가 발생했습니다.
+        </div>
+      );
     }
   } else {
     const { data: users, error } = await supabase
@@ -27,7 +31,11 @@ export default async function SearchResult({ searchType, queryParam }: { searchT
     searchData = users || [];
     if (error) {
       console.error("Search error:", error.message);
-      return <div>훈수자를 찾는 중에 오류가 발생했습니다.</div>;
+      return (
+        <div className="flex min-h-[calc(100vh-64px)] w-full flex-col items-center justify-center gap-4 py-8">
+          훈수자를 찾는 중에 오류가 발생했습니다.
+        </div>
+      );
     }
   }
 
