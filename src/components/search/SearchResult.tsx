@@ -192,7 +192,6 @@ export default function SearchResult({ searchType, queryParam }: { searchType: s
             </div>
           ))}
       </div>
-
       {/* 오른쪽 */}
       {searchType === "user" && selectedUser && (
         <div className="w-full lg:w-1/3">

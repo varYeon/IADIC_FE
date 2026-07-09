@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import SearchIntro from "./SearchIntro";
 import SearchResult from "./SearchResult";
 
-const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px] overflow-x-hidden", {
+export const searchFormVariants = cva("flex flex-col gap-4 w-full max-w-[697px] overflow-x-hidden", {
   variants: {
     searched: {
       true: "w-screen max-w-none mx-6 mt-5",
