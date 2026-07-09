@@ -6,7 +6,7 @@ import React from "react";
 import { PostWithProfile } from "@/types/search";
 import { categoryColor } from "@/utils/category";
 import formatDate from "@/utils/formatDate";
-import { cardVariants } from "./SearchResultClient";
+import { cardVariants } from "./SearchResult";
 import Badge from "../common/Badge";
 
 export default function ResultPosts({

@@ -28,11 +28,15 @@ export default async function SearchForm({
 
   const supabase = await createClient();
 
-  const { data, error } = await supabase.rpc("get_top_keyword");
+  const { data, error } = await supabase.rpc("get_top_keyword"); // SearchBar에 전달할 인기 검색어 목록
   const TopData = data ?? [];
   if (error) {
     console.error("Error:", error.message);
-    return <div>추천 훈수를 가져오는 중에 오류가 발생했습니다.</div>;
+    return (
+      <div className="flex min-h-[calc(100vh-64px)] w-full flex-col items-center justify-center gap-4 py-8">
+        훈수를 찾는 중에 오류가 발생했습니다.
+      </div>
+    );
   }
 
   return (
