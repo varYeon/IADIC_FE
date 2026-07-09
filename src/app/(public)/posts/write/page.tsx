@@ -150,7 +150,7 @@ export default async function NewPostPage({ searchParams }: { searchParams: Prom
         // 기존 이미지 삭제
         const originalUrl = formData.get("original_image")?.toString() ?? "";
         const filePath = originalUrl.replace(
-          "https://lfkxloulmqeonuzaudtt.supabase.co/storage/v1/object/public/user_upload_image/",
+          "https://eaftdwfkhrhvfqpahumo.supabase.co/storage/v1/object/public/user_upload_image/",
           ""
         );
         const { error: removeImageError } = await supabase.storage.from("user_upload_image").remove([filePath]);

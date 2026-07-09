@@ -28,7 +28,7 @@ const navButtonVariants = cva(
   }
 );
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 interface NavButtonProps extends VariantProps<typeof navButtonVariants>, LinkProps {
   children: ReactNode;
